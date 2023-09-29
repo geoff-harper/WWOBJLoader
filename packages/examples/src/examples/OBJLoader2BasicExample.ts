@@ -2,14 +2,16 @@ import { Object3D, Vector3, Raycaster, ArrowHelper } from 'three';
 import { OBJLoader2 } from 'wwobjloader2';
 import { createThreeDefaultSetup, ExampleDefinition, renderDefault, reportProgress, ThreeDefaultSetup } from './ExampleCommons.js';
 
+const offset = new Vector3(338034, 5569726, 81);
+
 export class OBJLoader2BasicExample implements ExampleDefinition {
 
     private setup: ThreeDefaultSetup;
 
     constructor(elementToBindTo: HTMLElement | null) {
         const cameraDefaults = {
-            posCamera: new Vector3(0.0, 200.0, 100.0).add(new Vector3(338034, 5569726, 81)),
-            posCameraTarget: new Vector3(0, 0, 0).add(new Vector3(338034, 5569726, 81)),
+            posCamera: new Vector3(0.0, 200.0, 100.0).add(offset),
+            posCameraTarget: new Vector3(0, 0, 0).add(offset),
             near: 0.1,
             far: 10000,
             fov: 45
@@ -32,7 +34,7 @@ export class OBJLoader2BasicExample implements ExampleDefinition {
 
         const objLoader2 = new OBJLoader2();
         const callbackOnLoad = (object3d: Object3D) => {
-            object3d.position.set(338034, 5569726, 81);
+            object3d.position.copy(offset);
             this.setup.scene.add(object3d);
             reportProgress({
                 detail: {

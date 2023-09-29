@@ -58,7 +58,7 @@ export class OBJLoader2BasicExample implements ExampleDefinition {
         objLoader2.setModelName(modelName);
         objLoader2.setLogging(true, true);
         // objLoader2.setMaterials(MtlObjBridge.addMaterialsFromMtlLoader(mtlParseResult));
-        objLoader2.load('http://localhost:8089/model.obj', callbackOnLoad);
+        objLoader2.load('./models/obj/main/geoff/model.obj', callbackOnLoad);
         // };
 
         // const mtlLoader = new MTLLoader();

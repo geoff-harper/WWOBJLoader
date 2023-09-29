@@ -17,6 +17,8 @@
 		<script type="module">
 			import { OBJLoader2BasicExample } from './src/examples/OBJLoader2BasicExample.ts';
 			import { executeExample } from './src/examples/ExampleCommons.ts';
+            import {Object3D} from 'three';
+            Object3D.DEFAULT_UP.set(0, 0, 1);
 
 			const exampleApp = new OBJLoader2BasicExample(document.getElementById('example'));
 			executeExample(exampleApp);

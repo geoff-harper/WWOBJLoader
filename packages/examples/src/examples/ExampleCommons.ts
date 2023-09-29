@@ -1,5 +1,5 @@
-import { AmbientLight, DirectionalLight, GridHelper, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
+import { AmbientLight, DirectionalLight, GridHelper, PerspectiveCamera, Scene, WebGLRenderer, Vector3 } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export type CameraDefaults = {
     posCamera: THREE.Vector3;
@@ -48,7 +48,7 @@ export type ThreeDefaultSetup = {
     camera: THREE.PerspectiveCamera;
     cameraTarget: THREE.Vector3;
     cameraDefaults: CameraDefaults;
-    controls?: TrackballControls;
+    controls?: OrbitControls;
 }
 
 export function createThreeDefaultSetup(elementToBindTo: HTMLElement | null, cameraDefaults: CameraDefaults): ThreeDefaultSetup {
@@ -70,16 +70,21 @@ export function createThreeDefaultSetup(elementToBindTo: HTMLElement | null, cam
     setup.cameraTarget = setup.cameraDefaults.posCameraTarget;
     setup.camera = new PerspectiveCamera(setup.cameraDefaults.fov, recalcAspectRatio(setup.canvas),
         setup.cameraDefaults.near, setup.cameraDefaults.far);
+
     resetCamera(setup);
 
-    setup.controls = new TrackballControls(setup.camera, setup.renderer.domElement);
+    setup.controls = new OrbitControls(setup.camera, setup.renderer.domElement);
+    setup.controls!.target.copy(setup.cameraTarget);
+    console.log(setup.controls!.target);
 
     const ambientLight = new AmbientLight(0x404040);
     const directionalLight1 = new DirectionalLight(0xC0C090);
     const directionalLight2 = new DirectionalLight(0xC0C090);
 
-    directionalLight1.position.set(- 100, - 50, 100);
-    directionalLight2.position.set(100, 50, - 100);
+    directionalLight1.position.set(- 100, 100, - 50)
+        .add(new Vector3(338034, 5569726, 81));
+    directionalLight2.position.set(100, - 100, 50)
+        .add(new Vector3(338034, 5569726, 81));
 
     setup.scene.add(directionalLight1);
     setup.scene.add(directionalLight2);
@@ -87,6 +92,8 @@ export function createThreeDefaultSetup(elementToBindTo: HTMLElement | null, cam
 
     const helper = new GridHelper(1200, 60, 0xFF4444, 0x404040);
     helper.name = 'grid';
+    helper.position.set(338034, 5569726, 81);
+    helper.geometry.rotateX( Math.PI / 2 );
     setup.scene.add(helper);
 
     return setup;
@@ -109,7 +116,7 @@ export function updateCamera(setup: ThreeDefaultSetup) {
 }
 
 export function resizeDisplayGL(setup: ThreeDefaultSetup) {
-    setup.controls!.handleResize();
+    // setup.controls!.handleResize();
     setup.renderer.setSize(setup.canvas.offsetWidth, setup.canvas.offsetHeight, false);
     updateCamera(setup);
 }
